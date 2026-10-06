@@ -1,0 +1,28 @@
+services:
+  flutter:
+    build: .
+    image: bonum-flutter
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    ports:
+      # Porta da versão web (mude com WEB_PORT=xxxx make web)
+      - "${WEB_PORT:-8095}:${WEB_PORT:-8095}"
+    environment:
+      HOST_UID: ${HOST_UID:-1000}
+      HOST_GID: ${HOST_GID:-1000}
+      WEB_PORT: ${WEB_PORT:-8095}
+      # A rede não tem IPv6: forçar IPv4 no Java (download do Gradle e dependências).
+      GRADLE_OPTS: -Djava.net.preferIPv4Stack=true -Dsun.net.inetaddr.ttl=600 -Dsun.net.inetaddr.negative.ttl=0
+    # Sem IPv6 no container, nada tenta conexões IPv6 que falhariam.
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+    volumes:
+      - .:/app
+      # Caches persistentes: o 2º build em diante fica bem mais rápido.
+      - pub-cache:/root/.pub-cache
+      - gradle-cache:/root/.gradle
+
+volumes:
+  pub-cache:
+  gradle-cache:

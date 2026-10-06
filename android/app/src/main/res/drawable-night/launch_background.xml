@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tela de abertura (Android < 12): fundo escuro com a folha do Bonum. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/bonum_splash_background" />
+    <item>
+        <bitmap android:gravity="center" android:src="@drawable/splash_leaf" />
+    </item>
+</layer-list>

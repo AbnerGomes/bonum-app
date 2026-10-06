@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Faça o bem. Perceba o bem.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#FAF7F2">
+  <meta name="apple-mobile-web-app-title" content="Bonum">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Bonum</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <script>
+    // Bonum na web: os dados ficam no armazenamento deste navegador.
+    // 1) Pede armazenamento persistente, para o navegador não apagar os dados
+    //    sozinho quando faltar espaço (Chrome concede em silêncio a sites usados
+    //    com frequência ou instalados; Firefox pode perguntar).
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persisted().then(function (already) {
+        if (!already) navigator.storage.persist();
+      }).catch(function () {});
+    }
+
+    // 2) Informações lidas pelo app (lib/util/web_env_web.dart).
+    window.bonumIsStandalone = function () {
+      return window.navigator.standalone === true ||
+        window.matchMedia('(display-mode: standalone)').matches;
+    };
+    window.bonumPlatform = function () {
+      var ua = navigator.userAgent || '';
+      var iPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      if (/iPhone|iPad|iPod/.test(ua) || iPadOS) return 'ios';
+      if (/Android/.test(ua)) return 'android';
+      return 'desktop';
+    };
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
